@@ -1,13 +1,13 @@
-service: my-store-app
+service: aws-react-cloudfront-app
 
 frameworkVersion: "3"
 
 provider:
   name: aws
   runtime: nodejs14.x
-  region: eu-west-1
+  region: us-east-1
   # setup profile for AWS CLI.
-  # profile: node-aws
+  profile: dev-sandx-profile
 
 plugins:
   - serverless-finch
@@ -19,7 +19,7 @@ plugins:
 
 custom:
   client:
-    bucketName: my-store-app
+    bucketName: oblxqo-react-cloudfront-serverless
     distributionFolder: dist
   s3BucketName: ${self:custom.client.bucketName}
 
@@ -43,7 +43,7 @@ resources:
         # VersioningConfiguration:
         #   Status: Enabled
 
-    ## Specifying the policies to make sure all files inside the Bucket are avaialble to CloudFront
+    ## Specifying the policies to make sure all files inside the Bucket are available to CloudFront
     WebAppS3BucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
