@@ -11,7 +11,19 @@
     "plugin:prettier/recommended",
     "prettier"
   ],
-  "plugins": ["@typescript-eslint", "react", "prettier"],
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "prettier"
+  ],
+    "rules": {
+      "prettier/prettier": [
+        "error",
+        {
+          "endOfLine": "auto"
+        }
+      ]
+    },
   "env": {
     "browser": true,
     "node": true
