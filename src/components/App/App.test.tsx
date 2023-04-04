@@ -9,6 +9,7 @@ import { AvailableProduct } from "~/models/Product";
 import { renderWithProviders } from "~/testUtils";
 import { screen, waitForElementToBeRemoved } from "@testing-library/react";
 import { formatAsPrice } from "~/utils/utils";
+import { Response } from "~/models/Response";
 
 test("Renders products list", async () => {
   const products: AvailableProduct[] = [
@@ -28,11 +29,11 @@ test("Renders products list", async () => {
     },
   ];
   server.use(
-    rest.get(`${API_PATHS.bff}/product/available`, (req, res, ctx) => {
+    rest.get(`${API_PATHS.bff}/products`, (req, res, ctx) => {
       return res(
         ctx.status(200),
         ctx.delay(),
-        ctx.json<AvailableProduct[]>(products)
+        ctx.json<Response<AvailableProduct[]>>({ payload: products })
       );
     }),
     rest.get(`${API_PATHS.cart}/profile/cart`, (req, res, ctx) => {

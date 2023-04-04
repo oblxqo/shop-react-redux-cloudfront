@@ -3,15 +3,16 @@ import API_PATHS from "~/constants/apiPaths";
 import { AvailableProduct } from "~/models/Product";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import React from "react";
+import { Response } from "~/models/Response";
 
 export function useAvailableProducts() {
   return useQuery<AvailableProduct[], AxiosError>(
     "available-products",
     async () => {
-      const res = await axios.get<AvailableProduct[]>(
-        `${API_PATHS.bff}/product/available`
+      const res = await axios.get<Response<AvailableProduct[]>>(
+        `${API_PATHS.bff}/products`
       );
-      return res.data;
+      return res.data.payload;
     }
   );
 }
@@ -28,10 +29,10 @@ export function useAvailableProduct(id?: string) {
   return useQuery<AvailableProduct, AxiosError>(
     ["product", { id }],
     async () => {
-      const res = await axios.get<AvailableProduct>(
+      const res = await axios.get<Response<AvailableProduct>>(
         `${API_PATHS.bff}/product/${id}`
       );
-      return res.data;
+      return res.data.payload;
     },
     { enabled: !!id }
   );

@@ -4,10 +4,15 @@ import { availableProducts, orders, products, cart } from "~/mocks/data";
 import { CartItem } from "~/models/CartItem";
 import { Order } from "~/models/Order";
 import { AvailableProduct, Product } from "~/models/Product";
+import { Response } from "~/models/Response";
 
 export const handlers = [
   rest.get(`${API_PATHS.bff}/product`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.delay(), ctx.json<Product[]>(products));
+    return res(
+      ctx.status(200),
+      ctx.delay(),
+      ctx.json<Response<Product[]>>({ payload: products })
+    );
   }),
   rest.put(`${API_PATHS.bff}/product`, (req, res, ctx) => {
     return res(ctx.status(200));
@@ -15,11 +20,11 @@ export const handlers = [
   rest.delete(`${API_PATHS.bff}/product/:id`, (req, res, ctx) => {
     return res(ctx.status(200));
   }),
-  rest.get(`${API_PATHS.bff}/product/available`, (req, res, ctx) => {
+  rest.get(`${API_PATHS.bff}/products`, (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.delay(),
-      ctx.json<AvailableProduct[]>(availableProducts)
+      ctx.json<Response<AvailableProduct[]>>({ payload: availableProducts })
     );
   }),
   rest.get(`${API_PATHS.bff}/product/:id`, (req, res, ctx) => {

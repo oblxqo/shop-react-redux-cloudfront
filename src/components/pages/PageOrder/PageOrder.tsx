@@ -23,6 +23,7 @@ import TableContainer from "@mui/material/TableContainer";
 import Box from "@mui/material/Box";
 import { useQueries } from "react-query";
 import { useInvalidateOrder, useUpdateOrderStatus } from "~/queries/orders";
+import { Response } from "~/models/Response";
 
 type FormValues = {
   status: OrderStatus;
@@ -42,10 +43,10 @@ export default function PageOrder() {
     {
       queryKey: "products",
       queryFn: async () => {
-        const res = await axios.get<AvailableProduct[]>(
-          `${API_PATHS.bff}/product/available`
+        const res = await axios.get<Response<AvailableProduct[]>>(
+          `${API_PATHS.bff}/products`
         );
-        return res.data;
+        return res.data.payload;
       },
     },
   ]);
