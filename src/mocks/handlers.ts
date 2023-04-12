@@ -14,7 +14,7 @@ export const handlers = [
       ctx.json<Response<Product[]>>({ payload: products })
     );
   }),
-  rest.put(`${API_PATHS.bff}/product`, (req, res, ctx) => {
+  rest.put(`${API_PATHS.bff}/products`, (req, res, ctx) => {
     return res(ctx.status(200));
   }),
   rest.delete(`${API_PATHS.bff}/product/:id`, (req, res, ctx) => {
