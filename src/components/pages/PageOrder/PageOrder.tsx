@@ -36,8 +36,10 @@ export default function PageOrder() {
     {
       queryKey: ["order", { id }],
       queryFn: async () => {
-        const res = await axios.get<Order>(`${API_PATHS.order}/order/${id}`);
-        return res.data;
+        const res = await axios.get<Response<Order>>(
+          `${API_PATHS.order}/orders/${id}`
+        );
+        return res.data.payload;
       },
     },
     {
@@ -54,6 +56,8 @@ export default function PageOrder() {
     { data: order, isLoading: isOrderLoading },
     { data: products, isLoading: isProductsLoading },
   ] = results;
+  console.log("In PageOrder order: ", order);
+  console.log("In PageOrder products: ", products);
   const { mutateAsync: updateOrderStatus } = useUpdateOrderStatus();
   const invalidateOrder = useInvalidateOrder();
   const cartItems: CartItem[] = React.useMemo(() => {

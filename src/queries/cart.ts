@@ -2,16 +2,28 @@ import axios, { AxiosError } from "axios";
 import React from "react";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import API_PATHS from "~/constants/apiPaths";
-import { CartItem } from "~/models/CartItem";
+import { Cart, CartItem } from "~/models/CartItem";
+import { Response } from "~/models/Response";
 
 export function useCart() {
-  return useQuery<CartItem[], AxiosError>("cart", async () => {
-    const res = await axios.get<CartItem[]>(`${API_PATHS.cart}/profile/cart`, {
-      headers: {
-        Authorization: `Basic ${localStorage.getItem("authorization_token")}`,
-      },
-    });
-    return res.data;
+  return useQuery<CartItem[] | undefined, AxiosError>("cart", async () => {
+    try {
+      const res = await axios.get<Response<Cart>>(
+        `${API_PATHS.cart}/profile/cart`,
+        {
+          headers: {
+            Authorization: `Basic ${localStorage.getItem(
+              "authorization_token"
+            )}`,
+          },
+        }
+      );
+      console.log("In useCart res.data", res.data);
+      return res.data.payload.items;
+    } catch (err: any) {
+      console.log("Error: ", err);
+      console.log("Error: ", err?.response?.data);
+    }
   });
 }
 
